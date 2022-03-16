@@ -2,23 +2,31 @@ def prompt(message)
   puts "=> #{message}"
 end
 
-prompt("CAR LOAN CALCULATOR")
-
-print("Total loan amount: $")
+puts ("   *********************")
+prompt("*CAR LOAN CALCULATOR*")
+puts ("   *********************")
 
 loan_amount = ""
 loop do
+  print("=> Total loan amount: $")
   loan_amount = gets.chomp
-
-  if loan_amount.empty?() || loan_amount.to_f() < 0
-    prompt("Must enter number greater than 0.")
+  if loan_amount.empty?() || loan_amount.to_f() <= 0
+    prompt("Please enter a VALID NUMBER")
   else
     break
   end
 end
 
-print "APR%: "
-APR = gets.chomp
+apr = ""
+loop do
+  print "=> APR%: "
+  apr = gets.chomp
+  if apr.empty?() || apr.to_f() <= 0
+    prompt("Please enter a VALID NUMBER")
+  else
+    break
+  end
+end
 
 duration_prompt = <<-MSG
 Choose length of terms:
@@ -57,10 +65,13 @@ loan_duration = case choice
     72
   end
 
-annual_interest_rate = APR.to_f() / 100
+annual_interest_rate = apr.to_f() / 100
 monthly_interest_rate = annual_interest_rate / 12
 
 monthly_payment = loan_amount.to_f() * (monthly_interest_rate / (1 - (1 + monthly_interest_rate) ** (-loan_duration)))
+
+monthly_payment = monthly_payment.to_f.round(2)
+monthly_interest_rate = (monthly_interest_rate * 100)
 
 puts monthly_payment
 puts monthly_interest_rate
